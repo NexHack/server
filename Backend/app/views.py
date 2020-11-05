@@ -17,9 +17,18 @@ class RegisterApi(APIView):
     def post(self, request):
         print("here")
         serializer = RegisterSerializer(data=request.data)
+        print(serializer.is_valid())
         serializer.is_valid(raise_exception=True)
-        user = serializer.save()
+        serializer.create(validated_data=request.data)
+        # user = serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class AddSkills(APIView):
+    """
+    Api for adding skills to the user profile
+    """
+    pass
 
 
 class UserViewSet(viewsets.ModelViewSet):
