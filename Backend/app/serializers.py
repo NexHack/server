@@ -4,6 +4,12 @@ from rest_framework import serializers
 from .models import UserDetail, Skills
 
 
+class RegisterSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'password', 'first_name', 'last_name')
+
+
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group

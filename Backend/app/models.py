@@ -17,3 +17,5 @@ class UserDetail(models.Model):
     skills = models.ManyToManyField(Skills, related_name='skills')
     college_name = models.CharField(max_length=100, null=True, blank=True)
     mobile_num = models.CharField(max_length=10)
+
+
