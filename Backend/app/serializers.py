@@ -17,7 +17,7 @@ class SkillsSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class UserDetailSerializer(serializers.HyperlinkedModelSerializer):
-    skills = SkillsSerializer(many=True, read_only=True)
+    skills = SkillsSerializer(many=True)
 
     class Meta:
         model = UserDetail

@@ -25,6 +25,7 @@ router.register(r'groups', views.GroupViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/suggest', views. GetSuggestedUsers.as_view()),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('token/', TokenObtainPairView.as_view()),
     path('token/', TokenRefreshView.as_view()),
