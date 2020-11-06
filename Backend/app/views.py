@@ -35,6 +35,23 @@ class ListSkillsSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
+class AddSkill(APIView):
+    """
+    Adding skill to this user profile
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, format=None):
+        try:
+            u = request.user.details
+            skill = Skills.objects.get(id=request.data["id"])
+            u.skills.add(skill)
+            return Response({"status": "success"}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            print(e)
+            return Response({"status": "failed"}, status=status.HTTP_400_BAD_REQUEST)
+
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     View User Data and Allow Change if it is his own data
