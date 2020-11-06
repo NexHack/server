@@ -1,4 +1,6 @@
+from app.serializers import SkillsSerializer
 from django.contrib.auth.models import User, Group
+from django.db.models.query import QuerySet
 from rest_framework import viewsets
 from rest_framework.routers import flatten
 from app.models import Skills, UserDetail
@@ -24,11 +26,13 @@ class RegisterApi(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class AddSkills(APIView):
+class ListSkillsSet(viewsets.ModelViewSet):
     """
-    Api for adding skills to the user profile
+    Getting list of all skills
     """
-    pass
+    queryset = Skills.objects.all()
+    serializer_class = SkillsSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class UserViewSet(viewsets.ModelViewSet):

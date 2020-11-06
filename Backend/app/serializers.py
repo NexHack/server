@@ -2,6 +2,7 @@ from django.contrib.auth.models import User, Group
 from django.db.models import fields
 from rest_framework import serializers
 from .models import UserDetail, Skills
+from django.contrib.auth.hashers import make_password
 
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
@@ -13,7 +14,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class SkillsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Skills
-        fields = ['name', 'level']
+        fields = ['url', 'name', 'level']
 
 
 class UserDetailSerializer(serializers.HyperlinkedModelSerializer):
@@ -25,7 +26,7 @@ class UserDetailSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    details = UserDetailSerializer()
+    details = UserDetailSerializer(read_only=True, many=False)
 
     class Meta:
         model = User
@@ -37,15 +38,16 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'password',
+        fields = ('id', 'username', 'password', 'email',
                   'first_name', 'last_name', 'user_detail')
+        extra_kwargs = {'email': {'required': True}}
 
     def create(self, validated_data):
         print("Coming to create")
         user_data = validated_data.pop('user_detail')
         user = User.objects.create(
-            username=validated_data.pop('username'), password=validated_data.pop('password'))
+            username=validated_data.pop('username'), password=make_password(validated_data.pop('password')))
         d1 = UserDetailSerializer(user_data)
 
         UserDetail.objects.create(
-            user=user, mobile_num=d1["mobile_num"], college_name=d1["college_name"])
+            user=user, mobile_num=d1.data["mobile_num"], college_name=d1.data["college_name"])
