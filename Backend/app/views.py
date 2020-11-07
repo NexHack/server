@@ -37,15 +37,15 @@ class ListSkillsSet(viewsets.ModelViewSet):
 
 class AddSkill(APIView):
     """
-    Adding skill to this user profile
+    Adding list of skill to this user profile
     """
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, format=None):
         try:
             u = request.user.details
-            skill = Skills.objects.get(id=request.data["id"])
-            u.skills.add(skill)
+            skill = Skills.objects.filter(id__in=request.data["id"])
+            u.skills.add(*skill)
             return Response({"status": "success"}, status=status.HTTP_201_CREATED)
         except Exception as e:
             print(e)
@@ -84,3 +84,4 @@ class GetSuggestedUsers(APIView):
             li.append({x.name: z})
         print(li)
         return Response(li)
+
