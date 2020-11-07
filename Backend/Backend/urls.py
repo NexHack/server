@@ -25,13 +25,13 @@ router.register(r'skills', views.ListSkillsSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/addskill', views.AddSkill.as_view()),
-    path('api/register', views.RegisterApi.as_view()),
+    path('api/addskill/', views.AddSkill.as_view()),
+    path('api/register/', views.RegisterApi.as_view()),
     path('api/', include(router.urls)),
-    path('api/suggest', views. GetSuggestedUsers.as_view()),
+    path('api/suggest/', views. GetSuggestedUsers.as_view()),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('token/', TokenObtainPairView.as_view()),
-    path('token/refresh', TokenRefreshView.as_view()),
+    path('token/refresh/', TokenRefreshView.as_view()),
 
 
 
